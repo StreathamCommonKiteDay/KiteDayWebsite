@@ -8,9 +8,12 @@
   "sort-media-direction": "desc",
   "download-photos": "copy",
   "cleanup": true,
-  "theme": "cards",
+  "theme": "mosaic",
   "css": "./custom.css",
   "footer": "Copyright © 2025 Friends of Streatham Common",
   "usage-stats": false,
-  "index": "gallery.html"
+  "index": "gallery.html",
+  "home-album-name": "Gallery",
+  "album-previews": "spread",
+  "embed-exif": true
 }
