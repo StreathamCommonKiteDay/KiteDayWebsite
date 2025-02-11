@@ -108,6 +108,14 @@ h4 {
 	margin: 1.5em 0 0.5em 7px;
 	color: #5a5b5d;
 }
+h5 {
+	font-family: 'Roboto', Arial, Helvetica, sans-serif;
+	font-size: 1.2em;
+	line-height: 1.1;
+	font-weight: 500;
+	margin: 1em 0 0.5em 0;
+	color: #5a5b5d;
+}
 p, ol, ul {
 	font-size: 0.85em;
 	line-height: 1.5;
