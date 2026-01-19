@@ -173,6 +173,7 @@ blockquote p {
 	text-align: right;
 	font-size: 0.8em;
 	font-style: italic;
+	line-height: 1em;
 }
 
 .sidebar p {
