@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Streatham Kite Day 2026 — Fly High on Streatham Common</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===========================
+     BRAND TOKENS
+  =========================== */
+  :root {
+    --sky: #4AB3E8;
+    --sky-deep: #1A7FBF;
+    --sky-pale: #D6EEFC;
+    --sun: #FFD94A;
+    --coral: #FF6B4A;
+    --grass: #5DBB63;
+    --grass-dark: #3A8A3E;
+    --cloud: #FFFFFF;
+    --ink: #1A2340;
+    --ink-light: #3A4A6B;
+    --lavender: #B388FF;
+    --kite-red: #E63946;
+    --kite-yellow: #FFD94A;
+    --kite-blue: #4AB3E8;
+    --kite-green: #5DBB63;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--sky-pale);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ===========================
+     ANIMATED SKY BACKGROUND
+  =========================== */
+  .sky-bg {
+    background: linear-gradient(180deg, #87CEEB 0%, #B8E4F5 40%, #D6F0FF 70%, #E8F8E8 100%);
+    position: relative;
+  }
+
+  /* Floating clouds */
+  .cloud-layer {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .cloud {
+    position: absolute;
+    background: rgba(255,255,255,0.75);
+    border-radius: 50px;
+    animation: drift linear infinite;
+  }
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: rgba(255,255,255,0.75);
+    border-radius: 50%;
+  }
+  .cloud-1 { width:180px; height:55px; top:8%; animation-duration:35s; animation-delay:-10s; }
+  .cloud-1::before { width:90px; height:90px; top:-45px; left:20px; }
+  .cloud-1::after  { width:70px; height:70px; top:-35px; left:70px; }
+  .cloud-2 { width:130px; height:40px; top:18%; animation-duration:50s; animation-delay:-25s; }
+  .cloud-2::before { width:70px; height:70px; top:-35px; left:15px; }
+  .cloud-2::after  { width:55px; height:55px; top:-28px; left:55px; }
+  .cloud-3 { width:220px; height:65px; top:5%; animation-duration:42s; animation-delay:-5s; }
+  .cloud-3::before { width:110px; height:110px; top:-55px; left:30px; }
+  .cloud-3::after  { width:80px; height:80px; top:-45px; left:100px; }
+
+  @keyframes drift {
+    from { transform: translateX(-300px); }
+    to   { transform: translateX(calc(100vw + 300px)); }
+  }
+
+  /* ===========================
+     NAV
+  =========================== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(26,35,64,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 3px solid var(--sun);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .nav-logo-img {
+    height: 44px;
+    width: auto;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--sun); }
+
+  .nav-cta {
+    background: var(--sun);
+    color: var(--ink) !important;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 800 !important;
+  }
+  .nav-cta:hover { background: var(--coral) !important; color: white !important; }
+
+  /* ===========================
+     HERO
+  =========================== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Grass strip at bottom of hero */
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 90px;
+    background: var(--grass);
+    border-radius: 50% 50% 0 0 / 30px 30px 0 0;
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+
+  /* Kite strings */
+  .kite-string-container {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+
+  /* SVG kites floating */
+  .floating-kite {
+    position: absolute;
+    animation: kiteFloat ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  @keyframes kiteFloat {
+    0%   { transform: translateY(0px) rotate(-3deg); }
+    50%  { transform: translateY(-22px) rotate(3deg); }
+    100% { transform: translateY(0px) rotate(-3deg); }
+  }
+
+  /* MASTHEAD / LOGO MARK */
+  .hero-logo {
+    margin-bottom: 20px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .masthead {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .hero-logo-img {
+    max-width: clamp(220px, 45vw, 420px);
+    height: auto;
+    animation: fadeUp 0.8s 0.1s ease both;
+    opacity: 0;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+  }
+
+  .masthead-title .word-kite { color: var(--sky-deep); }
+  .masthead-title .word-day  { color: var(--coral); }
+
+  .masthead-tagline {
+    font-family: 'Caveat', cursive;
+    font-size: 1.8rem;
+    color: var(--ink-light);
+    font-weight: 600;
+    margin-top: 8px;
+    animation: fadeUp 0.8s 0.35s ease both;
+    opacity: 0;
+  }
+
+  .hero-date-badge {
+    margin-top: 28px;
+    background: var(--ink);
+    color: var(--cloud);
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    animation: fadeUp 0.8s 0.45s ease both;
+    opacity: 0;
+    border: 3px solid var(--sun);
+  }
+  .hero-date-badge .highlight { color: var(--sun); }
+
+  .hero-sub {
+    margin-top: 12px;
+    font-size: 1rem;
+    color: var(--ink-light);
+    font-weight: 600;
+    animation: fadeUp 0.8s 0.55s ease both;
+    opacity: 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* COUNTDOWN */
+  .countdown {
+    margin-top: 40px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    animation: fadeUp 0.8s 0.65s ease both;
+    opacity: 0;
+    flex-wrap: wrap;
+  }
+
+  .countdown-unit {
+    background: rgba(255,255,255,0.9);
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 14px 20px;
+    min-width: 80px;
+    text-align: center;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .countdown-num {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.5rem;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .countdown-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--ink-light);
+    margin-top: 4px;
+  }
+
+  .hero-actions {
+    margin-top: 36px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.8s 0.75s ease both;
+    opacity: 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===========================
+     BUTTONS
+  =========================== */
+  .btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    border: 3px solid var(--ink);
+    cursor: pointer;
+  }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+
+  .btn-primary {
+    background: var(--coral);
+    color: white;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .btn-secondary {
+    background: var(--sun);
+    color: var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  /* ===========================
+     SECTIONS
+  =========================== */
+  section {
+    padding: 80px 24px;
+    position: relative;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-family: 'Caveat', cursive;
+    font-size: 1.3rem;
+    color: var(--coral);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: var(--ink);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .section-intro {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--ink-light);
+    max-width: 640px;
+    margin-bottom: 48px;
+  }
+
+  /* ===========================
+     WHAT'S ON STRIP
+  =========================== */
+  .whats-on-strip {
+    background: var(--ink);
+    padding: 28px 0;
+    overflow: hidden;
+  }
+
+  .strip-ticker {
+    display: flex;
+    gap: 60px;
+    animation: ticker 25s linear infinite;
+    white-space: nowrap;
+  }
+
+  .strip-item {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    color: var(--sun);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .strip-dot {
+    width: 10px; height: 10px;
+    background: var(--coral);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ===========================
+     ABOUT / INTRO
+  =========================== */
+  .about-section {
+    background: var(--cloud);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  @media(max-width:768px) { .about-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+  .about-visual {
+    position: relative;
+  }
+
+  .about-kite-showcase {
+    background: linear-gradient(135deg, #87CEEB 0%, #4AB3E8 50%, #1A7FBF 100%);
+    border-radius: 24px;
+    padding: 60px 40px;
+    text-align: center;
+    border: 4px solid var(--ink);
+    box-shadow: 8px 8px 0 var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .stat-card {
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .stat-num {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.2rem;
+    color: var(--coral);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--ink-light);
+    margin-top: 4px;
+  }
+
+  /* ===========================
+     SCHEDULE
+  =========================== */
+  .schedule-section {
+    background: linear-gradient(135deg, #FFF9E6 0%, #FFFBF0 100%);
+    position: relative;
+  }
+
+  .schedule-timeline {
+    position: relative;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .schedule-timeline::before {
+    content: '';
+    position: absolute;
+    left: 56px;
+    top: 0; bottom: 0;
+    width: 4px;
+    background: repeating-linear-gradient(180deg, var(--sky) 0, var(--sky) 8px, transparent 8px, transparent 16px);
+    border-radius: 2px;
+  }
+
+  .schedule-item {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-bottom: 36px;
+    position: relative;
+  }
+
+  .schedule-time {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    color: var(--sky-deep);
+    background: white;
+    border: 3px solid var(--sky);
+    border-radius: 12px;
+    padding: 8px 12px;
+    min-width: 80px;
+    text-align: center;
+    flex-shrink: 0;
+    box-shadow: 3px 3px 0 var(--sky);
+    z-index: 1;
+  }
+
+  .schedule-content {
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: 4px 4px 0 var(--ink);
+    flex: 1;
+  }
+
+  .schedule-content h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .schedule-content p {
+    font-size: 0.9rem;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+
+  /* ===========================
+     PRO KITERS
+  =========================== */
+  .kiters-section {
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .kiters-section .section-title { color: white; }
+  .kiters-section .section-eyebrow { color: var(--sun); }
+  .kiters-section .section-intro { color: rgba(255,255,255,0.7); }
+
+  /* Sky decoration for kiters bg */
+  .kiters-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--kite-red), var(--kite-yellow), var(--kite-green), var(--kite-blue));
+  }
+
+  .kiters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .kiter-card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 28px;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .kiter-card:hover {
+    transform: translateY(-6px);
+    background: rgba(255,255,255,0.1);
+  }
+
+  .kiter-icon {
+    font-size: 2.5rem;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .kiter-name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    color: var(--sun);
+    margin-bottom: 6px;
+  }
+
+  .kiter-role {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--coral);
+    margin-bottom: 12px;
+  }
+
+  .kiter-desc {
+    font-size: 0.92rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.65;
+  }
+
+  /* ===========================
+     FOOD & DRINK
+  =========================== */
+  .food-section {
+    background: linear-gradient(180deg, #E8F5E8 0%, #D4EDD4 100%);
+    position: relative;
+  }
+
+  .vendors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .vendor-card {
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 18px;
+    padding: 24px 20px;
+    text-align: center;
+    box-shadow: 5px 5px 0 var(--ink);
+    transition: transform 0.15s;
+  }
+  .vendor-card:hover { transform: translateY(-4px) rotate(1deg); }
+
+  .vendor-emoji {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .vendor-name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .vendor-type {
+    font-size: 0.8rem;
+    color: var(--grass-dark);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .vendor-note {
+    font-size: 0.75rem;
+    color: var(--coral);
+    font-weight: 700;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* ===========================
+     KIDS & ACTIVITIES
+  =========================== */
+  .activities-section {
+    background: linear-gradient(135deg, #FFF0E6 0%, #FFE8D6 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+  }
+
+  .activity-card {
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 20px;
+    padding: 30px 24px;
+    text-align: center;
+    box-shadow: 5px 5px 0 var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .activity-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+  }
+  .activity-card:nth-child(1)::before { background: var(--coral); }
+  .activity-card:nth-child(2)::before { background: var(--sky); }
+  .activity-card:nth-child(3)::before { background: var(--grass); }
+  .activity-card:nth-child(4)::before { background: var(--sun); }
+
+  .activity-icon { font-size: 3rem; display: block; margin-bottom: 14px; }
+
+  .activity-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.25rem;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .activity-desc {
+    font-size: 0.9rem;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+
+  /* ===========================
+     COMMUNITY
+  =========================== */
+  .community-section {
+    background: var(--sky-pale);
+    position: relative;
+  }
+
+  .community-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .community-tag {
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 50px;
+    padding: 10px 22px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+    transition: transform 0.15s, background 0.15s;
+    cursor: default;
+  }
+  .community-tag:hover { background: var(--sun); transform: translateY(-2px); }
+
+  /* ===========================
+     PLAN YOUR VISIT
+  =========================== */
+  .plan-section {
+    background: white;
+    position: relative;
+  }
+
+  .plan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+  }
+
+  .plan-card {
+    border-radius: 20px;
+    padding: 28px;
+    border: 3px solid var(--ink);
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+
+  .plan-card-icon { font-size: 2.5rem; margin-bottom: 14px; display: block; }
+  .plan-card h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .plan-card p, .plan-card li {
+    font-size: 0.9rem;
+    color: var(--ink-light);
+    line-height: 1.7;
+  }
+  .plan-card ul { list-style: none; }
+  .plan-card ul li::before { content: '→ '; color: var(--coral); font-weight: 700; }
+
+  .plan-card:nth-child(1) { background: #E8F5FF; }
+  .plan-card:nth-child(2) { background: #FFF5E8; }
+  .plan-card:nth-child(3) { background: #E8FFE8; }
+  .plan-card:nth-child(4) { background: #FFE8E8; }
+
+  /* ===========================
+     SOCIAL / UGC
+  =========================== */
+  .social-section {
+    background: linear-gradient(135deg, var(--sky) 0%, var(--sky-deep) 100%);
+    text-align: center;
+    padding: 80px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .social-section .section-title { color: white; }
+  .social-section .section-intro { color: rgba(255,255,255,0.85); margin: 0 auto 40px; }
+
+  .hashtag-display {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    color: var(--sun);
+    display: inline-block;
+    background: rgba(0,0,0,0.2);
+    padding: 20px 48px;
+    border-radius: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    margin-bottom: 32px;
+    animation: pulse 3s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.04); }
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .social-btn {
+    background: white;
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    border-radius: 50px;
+    padding: 12px 28px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+    transition: transform 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .social-btn:hover { transform: translateY(-3px); }
+
+  /* ===========================
+     FOOTER
+  =========================== */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.7);
+    padding: 48px 24px;
+    text-align: center;
+  }
+
+  .footer-logo-text {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  footer p {
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    line-height: 1.6;
+  }
+
+  footer a { color: var(--sun); text-decoration: none; }
+
+  .footer-divider {
+    width: 60px;
+    height: 3px;
+    background: var(--coral);
+    border-radius: 2px;
+    margin: 20px auto;
+  }
+
+  /* ===========================
+     SCROLL ANIMATIONS
+  =========================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===========================
+     HERO KITE SVG styles
+  =========================== */
+  .kite-svg-group { filter: drop-shadow(0 6px 16px rgba(0,0,0,0.18)); }
+
+  /* ===========================
+     RESPONSIVE
+  =========================== */
+  @media(max-width: 600px) {
+    nav { padding: 10px 16px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 16px 80px; }
+    .countdown { gap: 10px; }
+    .countdown-unit { min-width: 68px; padding: 12px 14px; }
+    .countdown-num { font-size: 2rem; }
+    section { padding: 60px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="./KiteDay_logo.png" alt="Streatham Kite Day 2026" class="nav-logo-img">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#schedule">Schedule</a></li>
+    <li><a href="#kiters">Pro Kiters</a></li>
+    <li><a href="#food">Food & Drink</a></li>
+    <li><a href="#kids">Kids</a></li>
+    <li><a href="#visit">Plan Your Visit</a></li>
+    <li><a href="#social" class="nav-cta">Join the Fun →</a></li>
+  </ul>
+</nav>
+
+<!-- ========================
+     HERO SECTION
+========================= -->
+<section class="hero sky-bg">
+  <!-- Floating clouds -->
+  <div class="cloud-layer" aria-hidden="true">
+    <div class="cloud cloud-1" style="left:-200px;"></div>
+    <div class="cloud cloud-2" style="left:-100px;"></div>
+    <div class="cloud cloud-3" style="left:-280px;"></div>
+  </div>
+
+  <!-- Floating SVG kites -->
+  <div class="kite-string-container" aria-hidden="true">
+
+    <!-- Big kite top-left -->
+    <svg class="floating-kite" style="top:12%;left:8%;width:100px;animation-duration:6s;animation-delay:0s;" viewBox="0 0 80 100" fill="none">
+      <g class="kite-svg-group">
+        <polygon points="40,4 72,40 40,76 8,40" fill="#FF6B4A" stroke="#1A2340" stroke-width="2.5"/>
+        <polygon points="40,4 72,40 40,40 8,40" fill="#E63946" opacity="0.4"/>
+        <line x1="40" y1="2" x2="40" y2="78" stroke="#1A2340" stroke-width="1.5"/>
+        <line x1="8" y1="40" x2="72" y2="40" stroke="#1A2340" stroke-width="1.5"/>
+        <polyline points="40,76 35,88 45,96 38,105 50,112" stroke="#1A2340" stroke-width="1.5" fill="none" stroke-dasharray="2,2"/>
+        <ellipse cx="35" cy="91" rx="4" ry="3" fill="#FFD94A" stroke="#1A2340" stroke-width="1"/>
+        <ellipse cx="43" cy="99" rx="4" ry="3" fill="#4AB3E8" stroke="#1A2340" stroke-width="1"/>
+      </g>
+    </svg>
+
+    <!-- Medium kite top-right -->
+    <svg class="floating-kite" style="top:8%;right:10%;width:80px;animation-duration:7.5s;animation-delay:-2s;" viewBox="0 0 80 100" fill="none">
+      <g class="kite-svg-group">
+        <polygon points="40,4 68,38 40,72 12,38" fill="#4AB3E8" stroke="#1A2340" stroke-width="2.5"/>
+        <polygon points="40,4 68,38 40,38 12,38" fill="#1A7FBF" opacity="0.4"/>
+        <line x1="40" y1="2" x2="40" y2="74" stroke="#1A2340" stroke-width="1.5"/>
+        <line x1="12" y1="38" x2="68" y2="38" stroke="#1A2340" stroke-width="1.5"/>
+        <polyline points="40,72 44,84 38,94 45,103" stroke="#1A2340" stroke-width="1.5" fill="none" stroke-dasharray="2,2"/>
+        <ellipse cx="43" cy="87" rx="4" ry="3" fill="#5DBB63" stroke="#1A2340" stroke-width="1"/>
+        <ellipse cx="39" cy="97" rx="4" ry="3" fill="#FF6B4A" stroke="#1A2340" stroke-width="1"/>
+      </g>
+    </svg>
+
+    <!-- Small kite mid-right -->
+    <svg class="floating-kite" style="top:38%;right:5%;width:55px;animation-duration:5s;animation-delay:-3.5s;" viewBox="0 0 80 100" fill="none">
+      <g class="kite-svg-group">
+        <polygon points="40,4 68,38 40,72 12,38" fill="#5DBB63" stroke="#1A2340" stroke-width="2.5"/>
+        <polygon points="40,4 68,38 40,38 12,38" fill="#3A8A3E" opacity="0.4"/>
+        <line x1="40" y1="2" x2="40" y2="74" stroke="#1A2340" stroke-width="1.5"/>
+        <line x1="12" y1="38" x2="68" y2="38" stroke="#1A2340" stroke-width="1.5"/>
+        <polyline points="40,72 36,84 42,94" stroke="#1A2340" stroke-width="1.5" fill="none" stroke-dasharray="2,2"/>
+      </g>
+    </svg>
+
+    <!-- Small kite left-mid -->
+    <svg class="floating-kite" style="top:50%;left:4%;width:50px;animation-duration:8s;animation-delay:-1s;" viewBox="0 0 80 100" fill="none">
+      <g class="kite-svg-group">
+        <polygon points="40,4 68,38 40,72 12,38" fill="#FFD94A" stroke="#1A2340" stroke-width="2.5"/>
+        <polygon points="40,4 68,38 40,38 12,38" fill="#E0A800" opacity="0.4"/>
+        <line x1="40" y1="2" x2="40" y2="74" stroke="#1A2340" stroke-width="1.5"/>
+        <line x1="12" y1="38" x2="68" y2="38" stroke="#1A2340" stroke-width="1.5"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <img src="./KiteDay_logo.png" alt="Streatham Kite Day 2026" class="hero-logo-img">
+    <h1 class="sr-only">Streatham Kite Day 2026</h1>
+    <p class="masthead-tagline">South London takes to the sky</p>
+  </div>
+
+  <div class="hero-date-badge">
+    📅 <span class="highlight">Sunday 10th May 2026</span> &nbsp;·&nbsp; 11am – 5pm
+  </div>
+  <p class="hero-sub">Free entry · Streatham Common · All Welcome</p>
+
+  <!-- COUNTDOWN TIMER -->
+  <div class="countdown" id="countdown">
+    <div class="countdown-unit">
+      <div class="countdown-num" id="cd-days">00</div>
+      <div class="countdown-label">Days</div>
+    </div>
+    <div class="countdown-unit">
+      <div class="countdown-num" id="cd-hours">00</div>
+      <div class="countdown-label">Hours</div>
+    </div>
+    <div class="countdown-unit">
+      <div class="countdown-num" id="cd-mins">00</div>
+      <div class="countdown-label">Mins</div>
+    </div>
+    <div class="countdown-unit">
+      <div class="countdown-num" id="cd-secs">00</div>
+      <div class="countdown-label">Secs</div>
+    </div>
+  </div>
+
+  <div class="hero-actions">
+    <a href="#visit" class="btn btn-primary">Plan Your Visit</a>
+    <a href="#schedule" class="btn btn-secondary">See What's On</a>
+  </div>
+</section>
+
+<!-- TICKER STRIP -->
+<div class="whats-on-strip" aria-hidden="true">
+  <div class="strip-ticker" id="ticker">
+    <div class="strip-item"><span class="strip-dot"></span>Pro Kite Displays</div>
+    <div class="strip-item"><span class="strip-dot"></span>Beer Tent</div>
+    <div class="strip-item"><span class="strip-dot"></span>Wood Fired Pizza</div>
+    <div class="strip-item"><span class="strip-dot"></span>Best Kite Competition</div>
+    <div class="strip-item"><span class="strip-dot"></span>Pimm's Stall</div>
+    <div class="strip-item"><span class="strip-dot"></span>Bouncy Castles</div>
+    <div class="strip-item"><span class="strip-dot"></span>Face Painting</div>
+    <div class="strip-item"><span class="strip-dot"></span>Hog Roast</div>
+    <div class="strip-item"><span class="strip-dot"></span>Free Entry</div>
+    <div class="strip-item"><span class="strip-dot"></span>Kite Shops</div>
+    <div class="strip-item"><span class="strip-dot"></span>Cafe</div>
+    <div class="strip-item"><span class="strip-dot"></span>Community Groups</div>
+    <!-- duplicate for seamless loop -->
+    <div class="strip-item"><span class="strip-dot"></span>Pro Kite Displays</div>
+    <div class="strip-item"><span class="strip-dot"></span>Beer Tent</div>
+    <div class="strip-item"><span class="strip-dot"></span>Wood Fired Pizza</div>
+    <div class="strip-item"><span class="strip-dot"></span>Best Kite Competition</div>
+    <div class="strip-item"><span class="strip-dot"></span>Pimm's Stall</div>
+    <div class="strip-item"><span class="strip-dot"></span>Bouncy Castles</div>
+    <div class="strip-item"><span class="strip-dot"></span>Face Painting</div>
+    <div class="strip-item"><span class="strip-dot"></span>Hog Roast</div>
+    <div class="strip-item"><span class="strip-dot"></span>Free Entry</div>
+    <div class="strip-item"><span class="strip-dot"></span>Kite Shops</div>
+    <div class="strip-item"><span class="strip-dot"></span>Cafe</div>
+    <div class="strip-item"><span class="strip-dot"></span>Community Groups</div>
+  </div>
+</div>
+
+<!-- ========================
+     ABOUT
+========================= -->
+<section class="about-section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <p class="section-eyebrow reveal">The Highlight of South London's Calendar</p>
+        <h2 class="section-title reveal">The sky's the limit<br>on Streatham Common</h2>
+        <p class="section-intro reveal">Every May, Streatham Common transforms into a festival of colour, community and creativity. Watch world-class kite professionals perform breathtaking displays while you fly your own kite, browse local food stalls, and soak up the buzz of one of South London's most beloved free events.</p>
+        <p class="reveal" style="color:var(--ink-light);line-height:1.7;font-size:0.95rem;">
+          Officially opened by the Mayor of Lambeth, the day brings together expert kite flyers, fantastic food, local community groups, kids' activities and — weather depending — some truly spectacular skies. Whether you're a seasoned kite enthusiast or bringing little ones for their very first taste of kite flying, there's something magical for everyone.
+        </p>
+        <div style="margin-top:28px;" class="reveal">
+          <a href="#visit" class="btn btn-primary" style="margin-right:12px;">Get Directions</a>
+          <a href="#kiters" class="btn btn-outline">Meet the Pros</a>
+        </div>
+      </div>
+      <div class="about-visual reveal">
+        <div class="about-kite-showcase">
+          <svg width="140" height="160" viewBox="0 0 110 130" fill="none" style="margin-bottom:16px;">
+            <polygon points="55,5 100,55 55,105 10,55" fill="white" opacity="0.9" stroke="rgba(255,255,255,0.3)" stroke-width="3"/>
+            <polygon points="55,5 100,55 55,58 10,55" fill="rgba(255,107,74,0.6)"/>
+            <line x1="55" y1="4" x2="55" y2="106" stroke="white" stroke-width="2" opacity="0.5"/>
+            <line x1="10" y1="55" x2="100" y2="55" stroke="white" stroke-width="2" opacity="0.5"/>
+            <polyline points="55,105 49,116 58,124 51,133" stroke="white" stroke-width="2" fill="none" stroke-dasharray="3,3" opacity="0.6"/>
+          </svg>
+          <p style="font-family:'Fredoka One',cursive;font-size:1.5rem;color:white;margin-bottom:4px;">Fly High!</p>
+          <p style="color:rgba(255,255,255,0.8);font-size:0.9rem;">Sunday 10th May · 11am to 5pm</p>
+        </div>
+        <div class="about-stat-grid">
+          <div class="stat-card reveal">
+            <div class="stat-num">FREE</div>
+            <div class="stat-label">Entry</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-num">6hrs</div>
+            <div class="stat-label">Of Fun</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-num">10+</div>
+            <div class="stat-label">Food Stalls</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-num">All</div>
+            <div class="stat-label">Ages Welcome</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================
+     SCHEDULE
+========================= -->
+<section class="schedule-section" id="schedule">
+  <div class="container">
+    <p class="section-eyebrow reveal">On the Day</p>
+    <h2 class="section-title reveal">Running Order</h2>
+    <p class="section-intro reveal">Here's how the day unfolds — though as any kite flyer knows, it all depends on the wind! ☁️</p>
+
+    <div class="schedule-timeline">
+      <div class="schedule-item reveal">
+        <div class="schedule-time">11:00am</div>
+        <div class="schedule-content">
+          <h3>🎉 Official Opening by the Mayor of Lambeth</h3>
+          <p>The gates open, stalls come to life, and background music sets the mood. All approved stalls are open — let the festivities begin!</p>
+        </div>
+      </div>
+      <div class="schedule-item reveal">
+        <div class="schedule-time">11:30am</div>
+        <div class="schedule-content">
+          <h3>🪁 Kite Displays Begin</h3>
+          <p>Expert kite flyers take to the arena. Professional teams perform their routines to music — expect incredible skill, massive kites, and plenty of "wow" moments. Displays run for around 1.5 hours and repeat throughout the day.</p>
+        </div>
+      </div>
+      <div class="schedule-item reveal">
+        <div class="schedule-time">All Day</div>
+        <div class="schedule-content">
+          <h3>🌤️ Large Static Kites in the Sky</h3>
+          <p>Enormous static kites including NASA-designed lifters, wildlife shapes and unusual characters will be in the sky all day long. Look up!</p>
+        </div>
+      </div>
+      <div class="schedule-item reveal">
+        <div class="schedule-time">All Day</div>
+        <div class="schedule-content">
+          <h3>🍕 Food, Drink & Shopping</h3>
+          <p>Grab a wood-fired pizza, a curry, a Pimm's, a hog roast, an ice cream and more. Browse the kite stalls and community stands whenever the mood takes you.</p>
+        </div>
+      </div>
+      <div class="schedule-item reveal">
+        <div class="schedule-time">All Day</div>
+        <div class="schedule-content">
+          <h3>🎪 Kids' Play Zone</h3>
+          <p>Bouncy castles, assault courses, bungee trampolines and face painting — the play zone is open all day to keep little ones thoroughly entertained.</p>
+        </div>
+      </div>
+      <div class="schedule-item reveal">
+        <div class="schedule-time">2:00pm</div>
+        <div class="schedule-content">
+          <h3>🏆 Kite Competition Judging</h3>
+          <p>Think your homemade kite has what it takes? From 2-3pm our photographer will be on special lookout for the best looking and best flying homemade kites - creativity counts! Winners and prizes to be announced around 4pm. One hour of high-flying rivalry!</p>
+        </div>
+      </div>
+      <div class="schedule-item reveal">
+        <div class="schedule-time">5:00pm</div>
+        <div class="schedule-content">
+          <h3>👋 Close of Day</h3>
+          <p>The kites come down, but the memories last forever. See you next year! Don't forget to share your photos: <strong>#StreathamKiteDay</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================
+     PRO KITERS
+========================= -->
+<section class="kiters-section" id="kiters">
+  <div class="container">
+    <p class="section-eyebrow reveal">World-Class Talent</p>
+    <h2 class="section-title reveal">Meet the Pro Kiters</h2>
+    <p class="section-intro reveal">From kite ballet to NASA-grade lifters, this year's line-up will leave you speechless. Displays run throughout the day in the arena — watch out for their time slots!</p>
+
+    <div class="kiters-grid">
+
+      <div class="kiter-card reveal">
+        <span class="kiter-icon">🐟</span>
+        <div class="kiter-name">Flying Fish</div>
+        <div class="kiter-role">Dual Line Pairs · Southampton</div>
+        <p class="kiter-desc">Lex and Irma fly their kites in perfect synchrony to music — think kite ballet. Named after their first pair, Neptune and Jaws, they've been flying together since 2018 and were crowned <strong style="color:var(--sun)">UK National Champions in Dual Line Pairs</strong>. Utterly mesmerising.</p>
+      </div>
+
+      <div class="kiter-card reveal">
+        <span class="kiter-icon">🌈</span>
+        <div class="kiter-name">Team Spectrum</div>
+        <div class="kiter-role">Precision Flying · Triple Kite Master</div>
+        <p class="kiter-desc">Carl is one of the very few people in the <strong style="color:var(--sun)">world</strong> who can fly three two-line kites simultaneously to music. His display of control has astonished Streatham crowds for many years. Prepare to have your mind blown.</p>
+      </div>
+
+      <div class="kiter-card reveal">
+        <span class="kiter-icon">🚀</span>
+        <div class="kiter-name">Nasaman — Keith</div>
+        <div class="kiter-role">Power Kiting · NASA Lifters</div>
+        <p class="kiter-desc">Keith's extraordinary kites were <strong style="color:var(--sun)">originally designed by NASA</strong> to assist with the descent of space capsules. Many square metres of pure power — sometimes he has to be tethered down. Watch as he attempts to harness the wind and lift off (but not quite into orbit!).</p>
+      </div>
+
+      <div class="kiter-card reveal">
+        <span class="kiter-icon">🦅</span>
+        <div class="kiter-name">Brighton Kite Flyers</div>
+        <div class="kiter-role">Giant Display Kites</div>
+        <p class="kiter-desc">Bringing a spectacular collection of <strong style="color:var(--sun)">massive kites</strong> of all shapes — wildlife, fantasy creatures and unusual characters. These enormous inflatables fill the sky and delight crowds of all ages. You can't miss them!</p>
+      </div>
+
+      <div class="kiter-card reveal">
+        <span class="kiter-icon">🧵</span>
+        <div class="kiter-name">Indian Paper Kite Flyers</div>
+        <div class="kiter-role">Traditional Kite Flying</div>
+        <p class="kiter-desc">Look way, way up — and you might spot delicate <strong style="color:var(--sun)">Indian paper kites</strong> dancing on the thinnest button thread. A skilled flyer can make them dash and dart even when they're barely visible. Keep an eye out across the common.</p>
+      </div>
+
+      <div class="kiter-card reveal" style="border-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);">
+        <span class="kiter-icon">🪁</span>
+        <div class="kiter-name">Fly Your Own!</div>
+        <div class="kiter-role">That Means You</div>
+        <p class="kiter-desc">Kite Day isn't just for the experts. <strong style="color:var(--sun)">Bring your kite</strong>, or pick one up from our pop-up kite shops. Flying a kite is one of the most joyful, relaxing pastimes you can share with your family. Come and have a go!</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========================
+     FOOD & DRINK
+========================= -->
+<section class="food-section" id="food">
+  <div class="container">
+    <p class="section-eyebrow reveal">Feed Your Soul</p>
+    <h2 class="section-title reveal">Food, Drink & Shopping</h2>
+    <p class="section-intro reveal">From hog roasts to handmade Turkish flatbreads, there's something to satisfy every appetite. A brilliant line-up of local and independent vendors join us on the Common.</p>
+
+    <div class="vendors-grid">
+      <div class="vendor-card reveal">
+        <span class="vendor-emoji">🍺</span>
+        <div class="vendor-name">Inkspot</div>
+        <div class="vendor-type">Bar & Ales</div>
+      </div>
+      <div class="vendor-card reveal">
+        <span class="vendor-emoji">🍹</span>
+        <div class="vendor-name">Scoop Pimm's Stall</div>
+        <div class="vendor-type">Pimm's & Cocktails</div>
+        <div class="vendor-note">💚 100% of sales supports SCCoop gardens</div>
+      </div>
+      <div class="vendor-card reveal">
+        <span class="vendor-emoji">🍦</span>
+        <div class="vendor-name">San Remo</div>
+        <div class="vendor-type">Ice Cream · Coffee · Pizza · Chicken</div>
+      </div>
+      <div class="vendor-card reveal">
+        <span class="vendor-emoji">🧀</span>
+        <div class="vendor-name">Fish Tale</div>
+        <div class="vendor-type">Deli & Fine Foods</div>
+      </div>
+      <div class="vendor-card reveal">
+        <span class="vendor-emoji">🍛</span>
+        <div class="vendor-name">Lucknow</div>
+        <div class="vendor-type">Meat & Veggie Curry</div>
+      </div>
+      <div class="vendor-card reveal">
+        <span class="vendor-emoji">🫓</span>
+        <div class="vendor-name">Gözleme</div>
+        <div class="vendor-type">Turkish Flatbreads</div>
+      </div>
+      <div class="vendor-card reveal">
+        <span class="vendor-emoji">☕</span>
+        <div class="vendor-name">Rookery Café</div>
+        <div class="vendor-type">Café Favourites</div>
+      </div>
+      <div class="vendor-card reveal">
+        <span class="vendor-emoji">🐷</span>
+        <div class="vendor-name">Gipsy Hill Smokehouse</div>
+        <div class="vendor-type">Hog Roast</div>
+      </div>
+      <div class="vendor-card reveal">
+        <span class="vendor-emoji">🪁</span>
+        <div class="vendor-name">Sky Bums & Kite Shops</div>
+        <div class="vendor-type">Kites & Accessories</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================
+     KIDS & ACTIVITIES
+========================= -->
+<section class="activities-section" id="kids">
+  <div class="container">
+    <p class="section-eyebrow reveal">Fun For All</p>
+    <h2 class="section-title reveal">Kids Go Wild</h2>
+    <p class="section-intro reveal">Kite Day is a full-on family adventure. We've got activities to wear out even the most energetic little humans, plus a homemade kite competition for creative types of all ages!</p>
+
+    <div class="activities-grid">
+      <div class="activity-card reveal">
+        <span class="activity-icon">🪁</span>
+        <h3 class="activity-title">Learn to Fly a Kite</h3>
+        <p class="activity-desc">There's no better place to learn than Streatham Common! Grab a kite from our pop-up shops and get those strings in the air. Experts are on hand to help.</p>
+      </div>
+      <div class="activity-card reveal">
+        <span class="activity-icon">🏆</span>
+        <h3 class="activity-title">Kite Competition</h3>
+        <p class="activity-desc">Put your imagination to work! Prizes for the best-looking and best-performing homemade kites. Judging starts at 2pm in the arena — all ages welcome.</p>
+      </div>
+      <div class="activity-card reveal">
+        <span class="activity-icon">🏰</span>
+        <h3 class="activity-title">Bouncy Castles & Assault Courses</h3>
+        <p class="activity-desc">Our Play Zone has bouncy castles and assault courses to challenge even the bounciest of children. Hours of fun guaranteed.</p>
+      </div>
+      <div class="activity-card reveal">
+        <span class="activity-icon">🤸</span>
+        <h3 class="activity-title">Bungee Trampolines</h3>
+        <p class="activity-desc">Want to feel like you're flying? Our bungee trampolines are the closest thing to kite flying with your feet off the ground!</p>
+      </div>
+      <div class="activity-card reveal">
+        <span class="activity-icon">🎨</span>
+        <h3 class="activity-title">Face Painting</h3>
+        <p class="activity-desc">Run by the brilliant Streatham Common Paddling Pool Volunteer Group. All money raised goes towards keeping the paddling pool open for the community.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================
+     COMMUNITY
+========================= -->
+<section class="community-section" id="community">
+  <div class="container">
+    <p class="section-eyebrow reveal">Together We Soar</p>
+    <h2 class="section-title reveal">Our Community</h2>
+    <p class="section-intro reveal">Kite Day is powered by the heart of Streatham. These brilliant local organisations will all have stands on the day — pop in and say hello!</p>
+    <div class="community-tags">
+      <span class="community-tag reveal">🌿 Friends of Streatham Common</span>
+      <span class="community-tag reveal">🌱 Streatham Community Garden & SCCoop</span>
+      <span class="community-tag reveal">🎭 Streatham Theatre Company</span>
+      <span class="community-tag reveal">🌳 Friends of Norwood Grove</span>
+      <span class="community-tag reveal">🐦 RSPB</span>
+      <span class="community-tag reveal">⚽ Streatham United FC</span>
+      <span class="community-tag reveal">🦊 London Wildlife Trust</span>
+      <span class="community-tag reveal">🏘️ Streatham Society</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========================
+     PLAN YOUR VISIT
+========================= -->
+<section class="plan-section" id="visit">
+  <div class="container">
+    <p class="section-eyebrow reveal">Everything You Need</p>
+    <h2 class="section-title reveal">Plan Your Visit</h2>
+    <p class="section-intro reveal">We want your day to be as easy and enjoyable as possible. Here's everything you need to know before you arrive.</p>
+
+    <div class="plan-grid">
+      <div class="plan-card reveal">
+        <span class="plan-card-icon">🚂</span>
+        <h3>Getting Here</h3>
+        <ul>
+          <li>Streatham Station (Southern) — 5 min walk</li>
+          <li>Streatham Common Station (Southern) — 5 min walk</li>
+          <li>Multiple bus routes: 109, 159, 249, 250, 255</li>
+          <li>We encourage public transport to reduce local congestion</li>
+        </ul>
+      </div>
+      <div class="plan-card reveal">
+        <span class="plan-card-icon">♿</span>
+        <h3>Accessibility</h3>
+        <p>The Common is largely flat and accessible for wheelchairs and buggies. Some areas of grass may be uneven — wear appropriate footwear. Accessible toilets will be available on site.</p>
+      </div>
+      <div class="plan-card reveal">
+        <span class="plan-card-icon">🚻</span>
+        <h3>Facilities</h3>
+        <ul>
+          <li>Toilets available on site</li>
+          <li>Wide range of food and drink stalls</li>
+          <li>First aid team on site throughout the day</li>
+          <li>Dog-friendly event — keep them on leads near the kite arena!</li>
+        </ul>
+      </div>
+      <div class="plan-card reveal">
+        <span class="plan-card-icon">💡</span>
+        <h3>Top Tips</h3>
+        <ul>
+          <li>Bring your own kite (or buy one on the day!)</li>
+          <li>Wear layers — it can be breezy on the Common</li>
+          <li>Bring cash as well as cards</li>
+          <li>Aim to arrive early — kite displays run from 11:30am</li>
+          <li>Tag your photos: <strong>#StreathamKiteDay</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Map placeholder -->
+    <div class="reveal" style="margin-top:48px;background:var(--sky-pale);border:3px solid var(--ink);border-radius:20px;padding:40px;text-align:center;box-shadow:5px 5px 0 var(--ink);">
+      <p style="font-family:'Fredoka One',cursive;font-size:1.4rem;color:var(--ink);margin-bottom:8px;">📍 Find us on Streatham Common, SW16</p>
+      <p style="color:var(--ink-light);margin-bottom:20px;">Enter from Streatham Common South or Streatham Common North</p>
+      <a href="https://maps.google.com/?q=Streatham+Common,+London+SW16" target="_blank" rel="noopener" class="btn btn-primary">Open in Google Maps →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========================
+     SOCIAL / UGC
+========================= -->
+<section class="social-section" id="social">
+  <div class="container">
+    <p class="section-eyebrow" style="color:var(--sun);">Share the Sky</p>
+    <h2 class="section-title">Join the Conversation</h2>
+    <p class="section-intro">Share your photos and videos on Instagram and Facebook using our hashtag</p>
+
+    <div class="hashtag-display">#StreathamKiteDay</div>
+
+    <div class="social-icons">
+      <a href="https://www.facebook.com" target="_blank" rel="noopener" class="social-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="#1A2340" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Facebook Event
+      </a>
+      <a href="https://www.instagram.com" target="_blank" rel="noopener" class="social-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="#1A2340" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="#1A2340" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5" fill="#1A2340"/></svg>
+        Instagram
+      </a>
+      <a href="https://www.streathamkiteday.org.uk" target="_blank" rel="noopener" class="social-btn">
+        🌐 Official Website
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo-text">🪁 Streatham Kite Day 2026</div>
+  <p>Sunday 10th May 2026 · Streatham Common, SW16 · 11am – 5pm</p>
+  <p>Free entry for all · Organised by Friends of Streatham Common</p>
+  <div class="footer-divider"></div>
+  <p><a href="https://www.streathamkiteday.org.uk">streathamkiteday.org.uk</a></p>
+  <p style="margin-top:16px;font-size:0.8rem;opacity:0.5;">Designed with ❤️ for the Streatham community · #StreathamKiteDay</p>
+</footer>
+
+<script>
+  // ========================
+  // COUNTDOWN TIMER
+  // ========================
+  function updateCountdown() {
+    const target = new Date('2026-05-10T11:00:00');
+    const now = new Date();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      document.getElementById('cd-days').textContent = '0';
+      document.getElementById('cd-hours').textContent = '0';
+      document.getElementById('cd-mins').textContent = '0';
+      document.getElementById('cd-secs').textContent = '0';
+      return;
+    }
+
+    const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs  = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('cd-days').textContent  = String(days).padStart(2, '0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('cd-mins').textContent  = String(mins).padStart(2, '0');
+    document.getElementById('cd-secs').textContent  = String(secs).padStart(2, '0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ========================
+  // SCROLL REVEAL
+  // ========================
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 0);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+</body>
+</html>
